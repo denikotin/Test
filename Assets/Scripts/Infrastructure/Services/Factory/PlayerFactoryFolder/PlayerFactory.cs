@@ -23,7 +23,7 @@ namespace Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory
             GameObject playerPrefab = _assetProvider.Load(AssetsPaths.PLAYER);
             GameObject player = Object.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
-            player.GetComponent<PlayerMover>().Construct(_serviceLocator.GetService<IInputService>());
+            player.GetComponent<PlayerMove>().Construct(_serviceLocator.GetService<IInputService>());
 
             return player;
         }

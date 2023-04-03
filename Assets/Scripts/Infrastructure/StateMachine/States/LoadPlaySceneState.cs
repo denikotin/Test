@@ -8,6 +8,9 @@ using Assets.Scripts.Infrastructure.Services.SceneLoaderFolder;
 using Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory;
 using System;
 using Assets.Scripts.Infrastructure.Services.Factory.EnemyFactoryFolder;
+using Assets.Scripts.Logic.Player;
+using Assets.Scripts.Logic.Weapon;
+using Assets.Scripts.Infrastructure.Services.Factory.BulletFactoryFolder;
 
 namespace Assets.Scripts.Infrastructure.StateMachine.States
 {
@@ -19,8 +22,9 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
 
         private IUIFactory _uiFactory;
         private ISceneLoader _sceneLoader;
-        private IPlayerFactory _playerFactory;
         private IEnemyFactory _enemyFactory;
+        private IBulletFactory _bulletFactory;
+        private IPlayerFactory _playerFactory;
         private IObjectPoolService _objectPool;
         private IStaticDataService _staticDataService;
 
@@ -48,6 +52,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             _sceneLoader = _serviceLocator.GetService<ISceneLoader>();
             _playerFactory = _serviceLocator.GetService<IPlayerFactory>();
             _enemyFactory = _serviceLocator.GetService<IEnemyFactory>();
+            _bulletFactory = _serviceLocator.GetService<IBulletFactory>();
             _objectPool = _serviceLocator.GetService<IObjectPoolService>();
             _staticDataService = _serviceLocator.GetService<IStaticDataService>();
 
@@ -76,6 +81,9 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         private GameObject ConstructPlayer()
         {
             GameObject player = _playerFactory.CreatePlayer();
+
+            player.GetComponent<PlayerShoot>().SetWeapon(new Bow(_bulletFactory));
+
             return player;
         }
 
