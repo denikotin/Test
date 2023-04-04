@@ -5,34 +5,31 @@ namespace Assets.Scripts.Logic.Enemies
     public class EnemyPathfinder
     {
         private Transform _transform;
+        private Vector3 _startPosition;
         private EnemyArea _area;
 
         public EnemyPathfinder(Transform transform, EnemyArea enemyArea)
         {
+            _startPosition = transform.position;
             _transform = transform;
             _area = enemyArea;
         }
 
         public Vector3 FindNewPoint(float distance)
         {
-            float randomZ = Random.Range(_area.MinZ, _area.MaxZ);
-            float randomX = Random.Range(_area.MinX, _area.MaxX);
-
-            return new Vector3(randomX, _transform.position.y, randomZ);
+            return GetRoamingPosition(distance);
         }
 
-        //public void GenerateWalkPoint()
-        //{
+        private Vector3 GetRoamingPosition(float distance)
+        {
+           return _transform.position + (GetRandomDirection() * distance);
+        }
+        private Vector3 GetRandomDirection()
+        {
+            return new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+        }
 
-        //    Mathf.Min(Mathf.Abs(_area.MaxX - _transform.position.x),Mathf.Abs(_area.MinX - _transform.position.x));
-        //    Mathf.Min(Mathf.Abs(_area.MaxZ - _transform.position.z),Mathf.Abs(_area.MinZ - _transform.position.z));
 
-        //}
 
-        //private void SearchWalkPoint()
-        //{
-
-            
-        //}
     }
 }

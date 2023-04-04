@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
 namespace Assets.Scripts.Logic.Enemies.Walker
 {
@@ -39,23 +38,19 @@ namespace Assets.Scripts.Logic.Enemies.Walker
         {
             IsMoving = true;
             _agent.isStopped = false;
-            Vector3 destination = Vector3.zero;
 
             if (!_isWalkPointSet)
             {
-                 destination = _pathfinder.FindNewPoint(_moveDistance);
+                 _walkPoint = _pathfinder.FindNewPoint(_moveDistance);
                 _isWalkPointSet = true;
-                Debug.Log(destination);
-                _agent.SetDestination(destination);
+                Debug.Log(_walkPoint);
+                _agent.SetDestination(_walkPoint);
             }
-
-            Vector3 distanceToWalkPoint = _transform.position - destination;
-            Debug.Log(distanceToWalkPoint.magnitude);
-            if (distanceToWalkPoint.magnitude < 2f)
+            float distanceToWalkPoint = Vector3.Distance(_transform.position, _walkPoint);
+            if (distanceToWalkPoint < 2f)
             {
                 _isWalkPointSet = false;
             }
-
         }
 
         public void Stop()

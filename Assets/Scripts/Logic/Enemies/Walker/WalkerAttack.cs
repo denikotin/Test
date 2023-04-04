@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine;
-using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Logic.Enemies.Walker

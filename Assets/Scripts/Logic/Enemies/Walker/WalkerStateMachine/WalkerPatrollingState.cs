@@ -10,8 +10,8 @@ namespace Assets.Scripts.Logic.Enemies.Walker
 
         public WalkerPatrollingState(Transform walkerTransform, WalkerMover walkerMover)
         {
-            _walkerMover = walkerMover;
             _transform = walkerTransform;
+            _walkerMover = walkerMover;
         }
 
         public void Enter() => Debug.Log($"{_transform.name} вошел в сотояние patroll");
@@ -20,11 +20,12 @@ namespace Assets.Scripts.Logic.Enemies.Walker
 
         public void Exit()
         {
-            
+            _walkerMover.Stop();
         }
 
-        public void Patrol() => _walkerMover.Move();
-
-
+        public void Patrol()
+        {
+            _walkerMover.Move();
+        }
     }
 }
