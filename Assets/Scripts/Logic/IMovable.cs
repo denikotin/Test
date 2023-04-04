@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.Logic
+﻿using UnityEngine;
+
+namespace Assets.Scripts.Logic
 {
     public interface IMovable
     {

@@ -38,7 +38,6 @@ namespace Assets.Scripts.Logic.Player
             _isShooting = true;
             if (_currentWeapon != null)
             {
-                Debug.Log("Shoot");
                 _currentWeapon.Shoot(transform);
             }
             yield return new WaitForSeconds(1f);

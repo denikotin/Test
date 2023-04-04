@@ -10,14 +10,14 @@ public class PlayerAggression : MonoBehaviour, IAggressable
 
     private void OnEnable()
     {
-        AggressionArea.OnAggressionEnterEvent += Aggress;
-        AggressionArea.OnAggressionExitEvent += UnAggress;
+        AggressionArea.OnAggressionAreaEnterEvent += Aggress;
+        AggressionArea.OnAggressionAreaExitEvent += UnAggress;
     }
 
     private void OnDisable()
     {
-        AggressionArea.OnAggressionEnterEvent -= Aggress;
-        AggressionArea.OnAggressionExitEvent -= UnAggress;
+        AggressionArea.OnAggressionAreaEnterEvent -= Aggress;
+        AggressionArea.OnAggressionAreaExitEvent -= UnAggress;
     }
 
     private void Update()
@@ -32,7 +32,6 @@ public class PlayerAggression : MonoBehaviour, IAggressable
     {
         if(other.CompareTag("Enemy"))
         {
-            Debug.Log("Слежу за объектом");
             CurrentAgressionOnbject = other.gameObject;
         }
     }
@@ -41,7 +40,6 @@ public class PlayerAggression : MonoBehaviour, IAggressable
     {
         if(other.gameObject == CurrentAgressionOnbject)
         {
-            Debug.Log("Не слежу за объектом");
             CurrentAgressionOnbject = null;
         }
 

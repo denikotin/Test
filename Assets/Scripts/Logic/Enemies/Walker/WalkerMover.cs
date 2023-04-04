@@ -1,32 +1,67 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 namespace Assets.Scripts.Logic.Enemies.Walker
 {
-    public class WalkerMover : MonoBehaviour, IMovable
+    public class WalkerMover : IMovable
     {
-        private void Awake()
+        public bool IsMoving { get; set; }
+
+        private float _moveDistance;
+
+
+        private NavMeshAgent _agent;
+        private Transform _transform;
+        private EnemyArea _enemyArea;
+        private EnemyPathfinder _pathfinder;
+
+        private Vector3 _walkPoint;
+        private bool _isWalkPointSet;
+
+        public WalkerMover(Transform transform,NavMeshAgent agent, EnemyArea enemyArea)
         {
-            SetStartPosition();
+            _agent = agent;
+            _enemyArea = enemyArea;
+            _transform = transform;
         }
 
-        public bool IsMoving { get; set; }
+        public void Initialize(float speed, float distance)
+        {
+            _agent.speed = speed;
+            _moveDistance = distance;
+            _pathfinder = new EnemyPathfinder(_transform,_enemyArea);
+        }
+
+        //public void SetDestination(Vector3 destination) => _destination = destination;
 
         public void Move()
         {
-            
+            IsMoving = true;
+            _agent.isStopped = false;
+            Vector3 destination = Vector3.zero;
+
+            if (!_isWalkPointSet)
+            {
+                 destination = _pathfinder.FindNewPoint(_moveDistance);
+                _isWalkPointSet = true;
+                Debug.Log(destination);
+                _agent.SetDestination(destination);
+            }
+
+            Vector3 distanceToWalkPoint = _transform.position - destination;
+            Debug.Log(distanceToWalkPoint.magnitude);
+            if (distanceToWalkPoint.magnitude < 2f)
+            {
+                _isWalkPointSet = false;
+            }
+
         }
 
-        private void SetStartPosition()
+        public void Stop()
         {
-            GameObject spawnArea = GameObject.FindGameObjectWithTag("SpawnArea");
-
-            float maxX = spawnArea.transform.position.x + spawnArea.transform.localScale.x / 2;
-            float minX = spawnArea.transform.position.x - spawnArea.transform.localScale.x / 2;
-            float maxZ = spawnArea.transform.position.z + spawnArea.transform.localScale.z / 2;
-            float minZ = spawnArea.transform.position.z - spawnArea.transform.localScale.z / 2;
-
-            Vector3 startPosition = new Vector3(Random.Range(minX, maxX), 2, Random.Range(minZ, maxZ));
-            transform.position = startPosition;
+            _agent.isStopped = true;
+            IsMoving = false;
         }
     }
 }

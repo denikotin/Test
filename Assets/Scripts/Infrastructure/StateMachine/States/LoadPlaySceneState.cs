@@ -11,6 +11,7 @@ using Assets.Scripts.Infrastructure.Services.Factory.EnemyFactoryFolder;
 using Assets.Scripts.Logic.Player;
 using Assets.Scripts.Logic.Weapon;
 using Assets.Scripts.Infrastructure.Services.Factory.BulletFactoryFolder;
+using Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine;
 
 namespace Assets.Scripts.Infrastructure.StateMachine.States
 {
@@ -72,7 +73,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             _objectPool.CleanUp();
 
             GameObject player = ConstructPlayer();
-            ConstructEnemies();
+            ConstructEnemies(player.transform);
             GameObject hud = ConstructHUD(player);
         }
 
@@ -87,9 +88,13 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             return player;
         }
 
-        private void ConstructEnemies()
+        private void ConstructEnemies(Transform player)
         {
-            _enemyFactory.CreateEnemy(EnemyID.Walker);
+            _enemyFactory.CreateEnemy(EnemyID.Walker)
+                .GetComponent<WalkerStateMachine>()
+                .Construct(player);
+
+
             //_enemyFactory.CreateEnemy(EnemyID.Flyer);
         }
 
