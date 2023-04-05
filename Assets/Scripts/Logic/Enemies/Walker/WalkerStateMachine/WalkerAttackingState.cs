@@ -28,16 +28,14 @@ namespace Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine
         public void Enter()
         {
             Debug.Log($"{_transform.name} вошел в сотояние Attacking");
-            _walkerAttack = _transform.GetComponent<WalkerAttack>();
 
+            _walkerAttack = _transform.GetComponent<WalkerAttack>();
             _isAttacking = false;
             _walkerMover.Stop();
         }
 
         public void Tick()
         {
-            Debug.Log($"Is moving:  {_walkerMover.IsMoving}");
-            Debug.Log($"Is attacking: {_isAttacking}");
             if (!_walkerMover.IsMoving)
             {
                 Attack();

@@ -17,7 +17,10 @@ namespace Assets.Scripts.Logic.Enemies
 
         public Vector3 FindNewPoint(float distance)
         {
-            return GetRoamingPosition(distance);
+            Vector3 position = GetRoamingPosition(distance);
+            float newX = Mathf.Clamp(position.x, _area.MinX, _area.MaxX);
+            float newZ = Mathf.Clamp(position.z, _area.MinZ, _area.MaxZ);
+            return new Vector3(newX,position.y,newZ);
         }
 
         private Vector3 GetRoamingPosition(float distance)
@@ -28,8 +31,5 @@ namespace Assets.Scripts.Logic.Enemies
         {
             return new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
         }
-
-
-
     }
 }

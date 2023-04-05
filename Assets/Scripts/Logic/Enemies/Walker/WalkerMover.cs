@@ -32,8 +32,6 @@ namespace Assets.Scripts.Logic.Enemies.Walker
             _pathfinder = new EnemyPathfinder(_transform,_enemyArea);
         }
 
-        //public void SetDestination(Vector3 destination) => _destination = destination;
-
         public void Move()
         {
             IsMoving = true;
@@ -41,9 +39,8 @@ namespace Assets.Scripts.Logic.Enemies.Walker
 
             if (!_isWalkPointSet)
             {
-                 _walkPoint = _pathfinder.FindNewPoint(_moveDistance);
                 _isWalkPointSet = true;
-                Debug.Log(_walkPoint);
+                 _walkPoint = _pathfinder.FindNewPoint(_moveDistance);
                 _agent.SetDestination(_walkPoint);
             }
             float distanceToWalkPoint = Vector3.Distance(_transform.position, _walkPoint);

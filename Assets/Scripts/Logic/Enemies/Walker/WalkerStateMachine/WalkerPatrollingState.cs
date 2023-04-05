@@ -14,13 +14,15 @@ namespace Assets.Scripts.Logic.Enemies.Walker
             _walkerMover = walkerMover;
         }
 
-        public void Enter() => Debug.Log($"{_transform.name} вошел в сотояние patroll");
+        public void Enter()
+        {
+            Debug.Log($"{_transform.name} вошел в сотояние patroll");
+        }
 
         public void Tick() => Patrol();
 
         public void Exit()
         {
-            _walkerMover.Stop();
         }
 
         public void Patrol()

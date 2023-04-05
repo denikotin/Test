@@ -10,7 +10,9 @@ namespace Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine
     {
         
         public EnemyArea EnemyArea;
+        public WalkerStats WalkerStats;
         public NavMeshAgent NavMeshAgent;
+
 
         private WalkerMover _walkerMover;
 
@@ -33,9 +35,8 @@ namespace Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine
 
         private void CreateUtils()
         {
-            WalkerStats walkerStats = GetComponent<WalkerStats>();
             _walkerMover = new WalkerMover(transform,NavMeshAgent, EnemyArea);
-            _walkerMover.Initialize(walkerStats.Speed, walkerStats.MoveDistance);
+            _walkerMover.Initialize(WalkerStats.Speed, WalkerStats.MoveDistance);
         }
 
         public void Update()
@@ -50,6 +51,12 @@ namespace Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine
         {
             TEnemyState state = ChangeState<TEnemyState>();
             state.Enter();
+        }
+
+        public void ExitState()
+        {
+            _currentState.Exit();
+            _currentState = null;
         }
 
         public TEnemyState GetState<TEnemyState>() where TEnemyState : class, IEnemyState
@@ -79,6 +86,5 @@ namespace Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine
             _currentState = state;
             return state;
         }
-
     }
 }
