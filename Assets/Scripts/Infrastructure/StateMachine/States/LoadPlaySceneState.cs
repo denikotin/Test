@@ -39,7 +39,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
 
         public void Enter(string sceneName)
         {
-            Debug.Log($"Entered {this.GetType().Name}");
+            //Debug.Log($"Entered {this.GetType().Name}");
             _loadingCurtain.Show();
             GetServices();
             LoadScene(sceneName);
@@ -51,9 +51,9 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         {
             _uiFactory = _serviceLocator.GetService<IUIFactory>();
             _sceneLoader = _serviceLocator.GetService<ISceneLoader>();
-            _playerFactory = _serviceLocator.GetService<IPlayerFactory>();
             _enemyFactory = _serviceLocator.GetService<IEnemyFactory>();
             _bulletFactory = _serviceLocator.GetService<IBulletFactory>();
+            _playerFactory = _serviceLocator.GetService<IPlayerFactory>();
             _objectPool = _serviceLocator.GetService<IObjectPoolService>();
             _staticDataService = _serviceLocator.GetService<IStaticDataService>();
 
@@ -82,9 +82,6 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         private GameObject ConstructPlayer()
         {
             GameObject player = _playerFactory.CreatePlayer();
-
-            player.GetComponent<PlayerShoot>().SetWeapon(new Bow(_bulletFactory));
-
             return player;
         }
 

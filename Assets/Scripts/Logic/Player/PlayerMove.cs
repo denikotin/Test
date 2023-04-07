@@ -2,7 +2,7 @@ using Assets.Scripts.Infrastructure.Services.InputServiceFolder;
 using Assets.Scripts.Logic;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour, IMovable
+public class PlayerMove : MonoBehaviour, IMove
 {
     public CharacterController CharacterController;
     public float MovementSpeed;

@@ -23,11 +23,12 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             _gameStateMachine = gameStateMachine;
             _serviceLocator = serviceLocator;
             _sceneLoader = sceneLoader;
+
         }
 
         public void Enter()
         {
-            Debug.Log($"Entered {this.GetType().Name}");
+            //Debug.Log($"Entered {this.GetType().Name}");
             RegisterServices();
             _gameStateMachine.EnterToState<LoadMenuSceneState,string>("Main");
         }

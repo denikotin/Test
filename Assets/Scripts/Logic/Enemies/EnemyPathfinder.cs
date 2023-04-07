@@ -5,12 +5,10 @@ namespace Assets.Scripts.Logic.Enemies
     public class EnemyPathfinder
     {
         private Transform _transform;
-        private Vector3 _startPosition;
         private EnemyArea _area;
 
         public EnemyPathfinder(Transform transform, EnemyArea enemyArea)
         {
-            _startPosition = transform.position;
             _transform = transform;
             _area = enemyArea;
         }
@@ -21,6 +19,7 @@ namespace Assets.Scripts.Logic.Enemies
             float newX = Mathf.Clamp(position.x, _area.MinX, _area.MaxX);
             float newZ = Mathf.Clamp(position.z, _area.MinZ, _area.MaxZ);
             return new Vector3(newX,position.y,newZ);
+            
         }
 
         private Vector3 GetRoamingPosition(float distance)

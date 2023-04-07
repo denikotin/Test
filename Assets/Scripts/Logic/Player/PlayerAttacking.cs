@@ -1,30 +1,41 @@
 using Assets.Scripts.Logic;
+using Assets.Scripts.Logic.Player;
 using UnityEngine;
 
-public class PlayerAggression : MonoBehaviour, IAggressable
+public class PlayerAttacking : MonoBehaviour, IAttack
 {
-    public AggressionArea AggressionArea;
     public PlayerMove PlayerMover;
+    public PlayerShoot PlayerShoot;
+    public AttackingArea AttackingArea;
+    public PlayerWeapon 
 
     public GameObject CurrentAgressionOnbject { get; private set; }
 
     private void OnEnable()
     {
-        AggressionArea.OnAggressionAreaEnterEvent += Aggress;
-        AggressionArea.OnAggressionAreaExitEvent += UnAggress;
+        AttackingArea.OnAttackingAreaEnterEvent += Aggress;
+        AttackingArea.OnAttackingAreaExitEvent += UnAggress;
     }
 
     private void OnDisable()
     {
-        AggressionArea.OnAggressionAreaEnterEvent -= Aggress;
-        AggressionArea.OnAggressionAreaExitEvent -= UnAggress;
+        AttackingArea.OnAttackingAreaEnterEvent -= Aggress;
+        AttackingArea.OnAttackingAreaExitEvent -= UnAggress;
     }
 
     private void Update()
     {
         if(!PlayerMover.IsMoving)
         {
-            Monitor();     
+            Attack();
+        }
+    }
+    public void Attack()
+    {
+        if (CurrentAgressionOnbject != null)
+        {
+            transform.LookAt(CurrentAgressionOnbject.transform);
+            PlayerShoot.Shoot();
         }
     }
 
@@ -43,13 +54,5 @@ public class PlayerAggression : MonoBehaviour, IAggressable
             CurrentAgressionOnbject = null;
         }
 
-    }
-
-    private void Monitor()
-    {
-        if(CurrentAgressionOnbject != null)
-        {
-            transform.LookAt(CurrentAgressionOnbject.transform);
-        }
     }
 }

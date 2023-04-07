@@ -10,11 +10,10 @@ namespace Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine
     {
         
         public EnemyArea EnemyArea;
-        public WalkerStats WalkerStats;
+        public WalkerMover WalkerMover;
         public NavMeshAgent NavMeshAgent;
+        public WalkerDetecting WalkerDetecting;
 
-
-        private WalkerMover _walkerMover;
 
         private Dictionary<Type, IEnemyState> _enemyStates;
         private IEnemyState _currentState;
@@ -24,20 +23,15 @@ namespace Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine
         public void Construct(Transform player)
         {
             _player = player;
+            WalkerDetecting.Construct(_player); 
         }
 
         public void Start()
         {
-            CreateUtils();
             CreateStates();
             EnterState<WalkerPatrollingState>();
         }
 
-        private void CreateUtils()
-        {
-            _walkerMover = new WalkerMover(transform,NavMeshAgent, EnemyArea);
-            _walkerMover.Initialize(WalkerStats.Speed, WalkerStats.MoveDistance);
-        }
 
         public void Update()
         {
@@ -53,12 +47,6 @@ namespace Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine
             state.Enter();
         }
 
-        public void ExitState()
-        {
-            _currentState.Exit();
-            _currentState = null;
-        }
-
         public TEnemyState GetState<TEnemyState>() where TEnemyState : class, IEnemyState
         {
             return _enemyStates[typeof(TEnemyState)] as TEnemyState;
@@ -68,13 +56,9 @@ namespace Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine
         {
             _enemyStates = new Dictionary<Type, IEnemyState>();
 
-            _enemyStates[typeof(WalkerAttackingState)] = new WalkerAttackingState(transform,
-                                                                                  _player,
-                                                                                  _walkerMover,
-                                                                                  EnemyArea);
+            _enemyStates[typeof(WalkerAttackingState)] = new WalkerAttackingState(transform,_player);
 
-            _enemyStates[typeof(WalkerPatrollingState)] = new WalkerPatrollingState(transform,
-                                                                                    _walkerMover);
+            _enemyStates[typeof(WalkerPatrollingState)] = new WalkerPatrollingState(transform);
         }
         private TEnemyState ChangeState<TEnemyState>() where TEnemyState : class, IEnemyState
         {

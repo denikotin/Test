@@ -24,7 +24,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
 
         public void Enter(string sceneName )
         {
-            Debug.Log($"Entered {this.GetType().Name}");
+            //Debug.Log($"Entered {this.GetType().Name}");
             _loadingCurtain.Show();
             GetServices();
             LoadScene(sceneName);

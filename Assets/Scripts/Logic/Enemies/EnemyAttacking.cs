@@ -2,9 +2,9 @@ using UnityEngine;
 using Assets.Scripts.Logic;
 using Assets.Scripts.Logic.Enemies.EnemyStates;
 
-public abstract class EnemyAttacking : MonoBehaviour, IAttackable
+public abstract class EnemyAttacking : MonoBehaviour, IAttack
 {
-    public AttackingArea AttackingArea;
+    public EnemyDetecting EnemyDetecting;
     protected IEnemyStateMachine _stateMachine;
 
     private void Awake()
@@ -14,18 +14,17 @@ public abstract class EnemyAttacking : MonoBehaviour, IAttackable
 
     private void OnEnable()
     {
-        AttackingArea.OnAttackingAreaEnterEvent += OnAttackAreaEnter;
-        AttackingArea.OnAttackingAreaExitEvent += OnAttaclAreaExit;
+        EnemyDetecting.OnDetectEvent += Attack;
+        EnemyDetecting.OnDetectEvent += Attack;
     }
 
     private void OnDisable()
     {
-        AttackingArea.OnAttackingAreaEnterEvent -= OnAttackAreaEnter;
-        AttackingArea.OnAttackingAreaExitEvent-= OnAttaclAreaExit;
+        EnemyDetecting.OnDetectEvent -= Attack;
+        EnemyDetecting.OnDetectEvent -= Attack;
     }
 
-    public abstract void OnAttackAreaEnter(Collider other);
+    public abstract void Attack();
 
-    public abstract void OnAttaclAreaExit(Collider other);
 
 }

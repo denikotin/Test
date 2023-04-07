@@ -3,46 +3,27 @@ using UnityEngine;
 
 namespace Assets.Scripts.Logic.Player
 {
-    public class PlayerShoot : MonoBehaviour
+    public class PlayerShoot : MonoBehaviour, IShoot
     {
-        public PlayerMove PlayerMove;
-        public PlayerAggression PlayerAggression;
-        public Rigidbody Rigidbody;
-
-        private IWeapon _currentWeapon;
         private bool _isShooting = false;
 
-        private void Update()
-        {
-            if((!PlayerMove.IsMoving) && (PlayerAggression.CurrentAgressionOnbject != null))
-            {
-                Shoot();
-            }
-        }
-
-        public void SetWeapon(IWeapon weapon)
-        {
-            _currentWeapon = weapon;
-        }
-
-        private void Shoot()
+        public void Shoot(IWeapon weapon)
         {
             if (!_isShooting)
             {
-                StartCoroutine(ShootRoutine());
+                StartCoroutine(ShootRoutine(weapon));
             }
         }
 
-        private IEnumerator ShootRoutine()
+        private IEnumerator ShootRoutine(IWeapon weapon)
         {
             _isShooting = true;
-            if (_currentWeapon != null)
+            if (weapon != null)
             {
-                _currentWeapon.Shoot(transform);
+                weapon.Shoot(transform);
             }
             yield return new WaitForSeconds(1f);
-            _isShooting=false;
-
+            _isShooting = false;
         }
     }
 }

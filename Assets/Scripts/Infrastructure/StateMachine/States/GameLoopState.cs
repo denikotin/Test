@@ -9,7 +9,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         }
         public void Enter()
         {
-            Debug.Log($"Entered {this.GetType().Name}");
+            //Debug.Log($"Entered {this.GetType().Name}");
         }
 
         public void Exit()

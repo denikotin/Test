@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Logic
 {
-    public interface IMovable
+    public interface IMove
     {
         public bool IsMoving { get; set; }
         public void Move();

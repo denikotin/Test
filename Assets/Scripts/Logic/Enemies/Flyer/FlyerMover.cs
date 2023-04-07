@@ -1,7 +1,7 @@
 using Assets.Scripts.Logic;
 using UnityEngine;
 
-public class FlyerMover : MonoBehaviour, IMovable
+public class FlyerMover : MonoBehaviour, IMove
 {
     public bool IsMoving { get; set; }
 

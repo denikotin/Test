@@ -1,58 +1,57 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 namespace Assets.Scripts.Logic.Enemies.Walker
 {
-    public class WalkerMover : IMovable
+    public class WalkerMover : MonoBehaviour, IMove
     {
         public bool IsMoving { get; set; }
 
-        private float _moveDistance;
+        public NavMeshAgent Agent;
+        public EnemyArea EnemyArea;
+        public WalkerStats Stats;
 
-
-        private NavMeshAgent _agent;
-        private Transform _transform;
-        private EnemyArea _enemyArea;
         private EnemyPathfinder _pathfinder;
-
+        private Coroutine _moveCoroutine;
         private Vector3 _walkPoint;
-        private bool _isWalkPointSet;
+        private float _moveDistance;
+        private float _distanceToWalkPoint;
 
-        public WalkerMover(Transform transform,NavMeshAgent agent, EnemyArea enemyArea)
-        {
-            _agent = agent;
-            _enemyArea = enemyArea;
-            _transform = transform;
-        }
 
-        public void Initialize(float speed, float distance)
+
+        public void Start()
         {
-            _agent.speed = speed;
-            _moveDistance = distance;
-            _pathfinder = new EnemyPathfinder(_transform,_enemyArea);
+            Agent.speed = Stats.Speed;
+            _moveDistance = Stats.MoveDistance;
+            _pathfinder = new EnemyPathfinder(transform,EnemyArea);
+            _walkPoint = _pathfinder.FindNewPoint(_moveDistance);
         }
 
         public void Move()
         {
-            IsMoving = true;
-            _agent.isStopped = false;
+            _distanceToWalkPoint = Vector3.Distance(transform.position, _walkPoint);
+            if (!IsMoving)
+            {
+                IsMoving = true;
+                Agent.isStopped = false;
 
-            if (!_isWalkPointSet)
-            {
-                _isWalkPointSet = true;
-                 _walkPoint = _pathfinder.FindNewPoint(_moveDistance);
-                _agent.SetDestination(_walkPoint);
-            }
-            float distanceToWalkPoint = Vector3.Distance(_transform.position, _walkPoint);
-            if (distanceToWalkPoint < 2f)
-            {
-                _isWalkPointSet = false;
+                _walkPoint = _pathfinder.FindNewPoint(_moveDistance);
+                _moveCoroutine = StartCoroutine(MoveRoutine());
             }
         }
 
         public void Stop()
         {
-            _agent.isStopped = true;
+            IsMoving = false;
+            Agent.isStopped = true;
+            StopCoroutine(_moveCoroutine);
+        }
+
+        private IEnumerator MoveRoutine()
+        {
+            Agent.SetDestination(_walkPoint);
+            yield return new WaitUntil(() => _distanceToWalkPoint <= 2f);
             IsMoving = false;
         }
     }

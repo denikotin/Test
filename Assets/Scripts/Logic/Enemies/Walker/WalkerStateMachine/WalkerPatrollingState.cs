@@ -8,15 +8,15 @@ namespace Assets.Scripts.Logic.Enemies.Walker
         private Transform _transform;
         private WalkerMover _walkerMover;
 
-        public WalkerPatrollingState(Transform walkerTransform, WalkerMover walkerMover)
+        public WalkerPatrollingState(Transform transform)
         {
-            _transform = walkerTransform;
-            _walkerMover = walkerMover;
+            _transform = transform;
+            _walkerMover = _transform.GetComponent<WalkerMover>();
         }
 
         public void Enter()
         {
-            Debug.Log($"{_transform.name} вошел в сотояние patroll");
+            //Debug.Log($"{_transform.name} вошел в сотояние patroll");
         }
 
         public void Tick() => Patrol();
