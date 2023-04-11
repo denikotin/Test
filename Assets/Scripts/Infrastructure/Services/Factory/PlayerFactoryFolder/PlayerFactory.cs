@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Infrastructure.AssetProviderFolder;
 using Assets.Scripts.Infrastructure.AssetsPathsFolder;
-using Assets.Scripts.Infrastructure.Services.InputServiceFolder;
+
 
 namespace Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory
 {
@@ -22,8 +22,6 @@ namespace Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory
         {
             GameObject playerPrefab = _assetProvider.Load(AssetsPaths.PLAYER);
             GameObject player = Object.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-
-            player.GetComponent<PlayerMove>().Construct(_serviceLocator.GetService<IInputService>());
 
             return player;
         }

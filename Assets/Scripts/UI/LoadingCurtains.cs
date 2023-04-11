@@ -13,10 +13,6 @@ namespace Assets.Scripts.UI.Common
 
         public void Hide() => gameObject.SetActive(false);
 
-        private void Update()
-        {
-            Pickaxe.transform.Rotate( Vector3.back * Time.deltaTime * 100);
-        }
     }
 }
 

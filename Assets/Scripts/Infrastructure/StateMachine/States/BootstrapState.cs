@@ -1,13 +1,11 @@
-﻿using UnityEngine;
-using Assets.Scripts.UI.UIFactory;
+﻿using Assets.Scripts.UI.UIFactory;
 using Assets.Scripts.Infrastructure.AssetProviderFolder;
 using Assets.Scripts.Infrastructure.Services.PoolService;
 using Assets.Scripts.Infrastructure.Services.StaticDataService;
 using Assets.Scripts.Infrastructure.Services.SceneLoaderFolder;
 using Assets.Scripts.Infrastructure.Services.InputServiceFolder;
 using Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory;
-using Assets.Scripts.Infrastructure.Services.Factory.EnemyFactoryFolder;
-using Assets.Scripts.Infrastructure.Services.Factory.BulletFactoryFolder;
+
 
 namespace Assets.Scripts.Infrastructure.StateMachine.States
 {
@@ -44,8 +42,6 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             _serviceLocator.RegisterService<IAssetProvider>(new AssetProvider());
             _serviceLocator.RegisterService<IUIFactory>(new UIFactory(_serviceLocator.GetService<IAssetProvider>(), _serviceLocator));
             _serviceLocator.RegisterService<IPlayerFactory>(new PlayerFactory(_serviceLocator));
-            _serviceLocator.RegisterService<IEnemyFactory>(new EnemyFactory(_serviceLocator));
-            _serviceLocator.RegisterService<IBulletFactory>(new BulletFactory(_serviceLocator));
             _serviceLocator.RegisterService<IInputService>(new InputService());
         }
     }

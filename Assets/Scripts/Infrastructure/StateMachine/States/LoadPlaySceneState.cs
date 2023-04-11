@@ -1,17 +1,10 @@
 ﻿using UnityEngine;
 using Assets.Scripts.UI.Common;
 using Assets.Scripts.UI.UIFactory;
-using Assets.Scripts.Data.NewTypes;
 using Assets.Scripts.Infrastructure.Services.PoolService;
 using Assets.Scripts.Infrastructure.Services.StaticDataService;
 using Assets.Scripts.Infrastructure.Services.SceneLoaderFolder;
 using Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory;
-using System;
-using Assets.Scripts.Infrastructure.Services.Factory.EnemyFactoryFolder;
-using Assets.Scripts.Logic.Player;
-using Assets.Scripts.Logic.Weapon;
-using Assets.Scripts.Infrastructure.Services.Factory.BulletFactoryFolder;
-using Assets.Scripts.Logic.Enemies.Walker.WalkerStateMachine;
 
 namespace Assets.Scripts.Infrastructure.StateMachine.States
 {
@@ -23,8 +16,6 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
 
         private IUIFactory _uiFactory;
         private ISceneLoader _sceneLoader;
-        private IEnemyFactory _enemyFactory;
-        private IBulletFactory _bulletFactory;
         private IPlayerFactory _playerFactory;
         private IObjectPoolService _objectPool;
         private IStaticDataService _staticDataService;
@@ -51,8 +42,6 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         {
             _uiFactory = _serviceLocator.GetService<IUIFactory>();
             _sceneLoader = _serviceLocator.GetService<ISceneLoader>();
-            _enemyFactory = _serviceLocator.GetService<IEnemyFactory>();
-            _bulletFactory = _serviceLocator.GetService<IBulletFactory>();
             _playerFactory = _serviceLocator.GetService<IPlayerFactory>();
             _objectPool = _serviceLocator.GetService<IObjectPoolService>();
             _staticDataService = _serviceLocator.GetService<IStaticDataService>();
@@ -73,7 +62,6 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             _objectPool.CleanUp();
 
             GameObject player = ConstructPlayer();
-            ConstructEnemies(player.transform);
             GameObject hud = ConstructHUD(player);
         }
 
@@ -85,15 +73,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             return player;
         }
 
-        private void ConstructEnemies(Transform player)
-        {
-            _enemyFactory.CreateEnemy(EnemyID.Walker)
-                .GetComponent<WalkerStateMachine>()
-                .Construct(player);
 
-
-            //_enemyFactory.CreateEnemy(EnemyID.Flyer);
-        }
 
         private GameObject ConstructHUD(GameObject player)
         {
