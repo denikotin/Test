@@ -1,10 +1,13 @@
 using Assets.Scripts.Logic.Camera;
+using Mirror;
 using UnityEngine;
 
 namespace Assets.Scripts.Logic.Player
 {
-    public class PlayerMove : MonoBehaviour
+    public class PlayerMove : NetworkBehaviour
     {
+        public bool IsMovable { get; private set; }
+
         [SerializeField][Range(1f, 100f)] private float _speed;
         [SerializeField][Range(100f, 1000f)] float _rotationSpeed;
 
@@ -16,9 +19,23 @@ namespace Assets.Scripts.Logic.Player
         private PlayerGravity _gravity;
 
 
-        private void Start() => _gravity = new PlayerGravity(transform, _groundLayer);
+        private void Start()
+        {
+            _gravity = new PlayerGravity(transform, _groundLayer);
+            SwitchOnMove();
+        }
 
-        private void Update() => Move();
+        private void Update()
+        {
+            if(!isLocalPlayer) { return; }
+            if (IsMovable)
+            {
+                Move();
+            }
+        }
+
+        public void SwitchOnMove() => IsMovable = true;
+        public void SwitchOffMove() => IsMovable = false;
 
         private void Move()
         {
@@ -40,6 +57,8 @@ namespace Assets.Scripts.Logic.Player
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, _targetRotation, _rotationSpeed * Time.deltaTime);
         }
+
+
     }
 }
 

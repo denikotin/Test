@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using Assets.Scripts.UI.Common;
 using Assets.Scripts.UI.UIFactory;
-using Assets.Scripts.Infrastructure.Services.PoolService;
-using Assets.Scripts.Infrastructure.Services.StaticDataService;
 using Assets.Scripts.Infrastructure.Services.SceneLoaderFolder;
 using Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory;
 
@@ -17,8 +15,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         private IUIFactory _uiFactory;
         private ISceneLoader _sceneLoader;
         private IPlayerFactory _playerFactory;
-        private IObjectPoolService _objectPool;
-        private IStaticDataService _staticDataService;
+
 
 
         public LoadPlaySceneState(IGameStateMachine gameStateMachine, ServiceLocator serviceLocator, GameObject loadingCurtain) 
@@ -43,8 +40,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             _uiFactory = _serviceLocator.GetService<IUIFactory>();
             _sceneLoader = _serviceLocator.GetService<ISceneLoader>();
             _playerFactory = _serviceLocator.GetService<IPlayerFactory>();
-            _objectPool = _serviceLocator.GetService<IObjectPoolService>();
-            _staticDataService = _serviceLocator.GetService<IStaticDataService>();
+
 
         }
 
@@ -59,7 +55,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
 
         private void ConstructPlayScene()
         {
-            _objectPool.CleanUp();
+
 
             GameObject player = ConstructPlayer();
             GameObject hud = ConstructHUD(player);

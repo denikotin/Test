@@ -2,6 +2,7 @@
 using Assets.Scripts.UI.UIFactory;
 using Assets.Scripts.Infrastructure.Services.SceneLoaderFolder;
 using Assets.Scripts.UI.Common;
+using Assets.Scripts.Infrastructure.Services.Factory.NetworkFactoryFolder;
 
 namespace Assets.Scripts.Infrastructure.StateMachine.States
 {
@@ -12,6 +13,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         
         private IUIFactory _uIFactory;
         private ISceneLoader _sceneLoader;
+        private INetworkFactory _networkFactory;
         private LoadingCurtains _loadingCurtain;
 
 
@@ -42,6 +44,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         private void OnLoadedMain()
         {
             ConstructUI();
+            CreateNetworkManager();
             _gameStateMachine.EnterToState<GameLoopState>();
         }
 
@@ -50,7 +53,10 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         {
             _uIFactory = _serviceLocator.GetService<IUIFactory>();
             _sceneLoader = _serviceLocator.GetService<ISceneLoader>();
+            _networkFactory = _serviceLocator.GetService<INetworkFactory>();
         }
+
+        private void CreateNetworkManager() => _networkFactory.CreateNetworkManager();
 
         private void ConstructUI()
         {
@@ -60,10 +66,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
 
         private void ConstructUIRoot() => _uIFactory.CreateRootUI();
 
-        private void ConstructMainMenu()
-        {
-            GameObject mainMenu = _uIFactory.CreateMainMenu();
-        }
+        private void ConstructMainMenu() => _uIFactory.CreateMainMenu();
 
     }
 }

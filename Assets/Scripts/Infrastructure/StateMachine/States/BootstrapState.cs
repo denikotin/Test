@@ -1,11 +1,8 @@
 ﻿using Assets.Scripts.UI.UIFactory;
 using Assets.Scripts.Infrastructure.AssetProviderFolder;
-using Assets.Scripts.Infrastructure.Services.PoolService;
-using Assets.Scripts.Infrastructure.Services.StaticDataService;
 using Assets.Scripts.Infrastructure.Services.SceneLoaderFolder;
-using Assets.Scripts.Infrastructure.Services.InputServiceFolder;
 using Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory;
-
+using Assets.Scripts.Infrastructure.Services.Factory.NetworkFactoryFolder;
 
 namespace Assets.Scripts.Infrastructure.StateMachine.States
 {
@@ -37,12 +34,10 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         { 
             _serviceLocator.RegisterService<ISceneLoader>(_sceneLoader);
             _serviceLocator.RegisterService<IGameStateMachine>(_gameStateMachine);
-            _serviceLocator.RegisterService<IStaticDataService>(new StaticDataService());
-            _serviceLocator.RegisterService<IObjectPoolService>(new ObjectPoolService());
             _serviceLocator.RegisterService<IAssetProvider>(new AssetProvider());
-            _serviceLocator.RegisterService<IUIFactory>(new UIFactory(_serviceLocator.GetService<IAssetProvider>(), _serviceLocator));
             _serviceLocator.RegisterService<IPlayerFactory>(new PlayerFactory(_serviceLocator));
-            _serviceLocator.RegisterService<IInputService>(new InputService());
+            _serviceLocator.RegisterService<INetworkFactory>(new NetworkFactory(_serviceLocator));
+            _serviceLocator.RegisterService<IUIFactory>(new UIFactory(_serviceLocator.GetService<IAssetProvider>(), _serviceLocator));
         }
     }
 }

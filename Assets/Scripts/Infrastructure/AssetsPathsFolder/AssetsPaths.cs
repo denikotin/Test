@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.Infrastructure.AssetsPathsFolder
+﻿using Mirror;
+
+namespace Assets.Scripts.Infrastructure.AssetsPathsFolder
 {
     public static class AssetsPaths
     {
@@ -10,11 +12,8 @@
 
         //Characters
         public const string PLAYER = "Characters/Player/Player";
-        public const string WALKER_ENEMY = "Characters/Enemies/Walker";
-        public const string FLYER_ENEMY = "Characters/Enemies/Flyer";
-        
 
-        //Bullet
-        public const string BULLET = "Weapon/Bullet";
+        //Network
+        public const string NETWORK_MANAGER = "Network/NetworkManager";
     }
 }

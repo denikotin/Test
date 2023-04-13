@@ -2,7 +2,6 @@
 using Assets.Scripts.Infrastructure.StateMachine;
 using Assets.Scripts.Infrastructure.AssetProviderFolder;
 using Assets.Scripts.Infrastructure.AssetsPathsFolder;
-using Assets.Scripts.Infrastructure.Services.StaticDataService;
 
 
 namespace Assets.Scripts.UI.UIFactory
@@ -13,7 +12,7 @@ namespace Assets.Scripts.UI.UIFactory
         private readonly IAssetProvider _assetProvider;
         private readonly ServiceLocator _serviceLocator;
         private readonly IGameStateMachine _gameStateMachine;
-        private readonly IStaticDataService _staticDataService;
+
 
 
         public UIFactory(IAssetProvider assetProvider, ServiceLocator serviceLocator)
@@ -21,7 +20,6 @@ namespace Assets.Scripts.UI.UIFactory
             _assetProvider = assetProvider;
             _serviceLocator = serviceLocator;  
             _gameStateMachine = _serviceLocator.GetService<IGameStateMachine>();
-            _staticDataService = _serviceLocator.GetService<IStaticDataService>();
         }
 
         public GameObject CreateRootUI()
@@ -36,9 +34,6 @@ namespace Assets.Scripts.UI.UIFactory
         {
             GameObject mainMenuPrefab = _assetProvider.Load(AssetsPaths.MAINMENU);
             GameObject mainMenu = Object.Instantiate(mainMenuPrefab, _root);
-
-            mainMenu.GetComponentInChildren<Play>().Construct(_gameStateMachine);
-
             return mainMenu;
         }
 
