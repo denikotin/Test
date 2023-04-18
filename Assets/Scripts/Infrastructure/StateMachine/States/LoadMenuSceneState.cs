@@ -2,7 +2,7 @@
 using Assets.Scripts.UI.UIFactory;
 using Assets.Scripts.Infrastructure.Services.SceneLoaderFolder;
 using Assets.Scripts.UI.Common;
-using Assets.Scripts.Infrastructure.Services.Factory.NetworkFactoryFolder;
+using Assets.Scripts.Infrastructure.Services.StaticDataServiceFolder;
 
 namespace Assets.Scripts.Infrastructure.StateMachine.States
 {
@@ -13,9 +13,8 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         
         private IUIFactory _uIFactory;
         private ISceneLoader _sceneLoader;
-        private INetworkFactory _networkFactory;
         private LoadingCurtains _loadingCurtain;
-
+        private IStaticDataService _staticData;
 
         public LoadMenuSceneState(IGameStateMachine gameStateMachine, ServiceLocator serviceLocator, GameObject loadingCurtain)
         {
@@ -43,8 +42,8 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
 
         private void OnLoadedMain()
         {
+            _staticData.Load();
             ConstructUI();
-            CreateNetworkManager();
             _gameStateMachine.EnterToState<GameLoopState>();
         }
 
@@ -53,10 +52,9 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         {
             _uIFactory = _serviceLocator.GetService<IUIFactory>();
             _sceneLoader = _serviceLocator.GetService<ISceneLoader>();
-            _networkFactory = _serviceLocator.GetService<INetworkFactory>();
+            _staticData = _serviceLocator.GetService<IStaticDataService>();
         }
 
-        private void CreateNetworkManager() => _networkFactory.CreateNetworkManager();
 
         private void ConstructUI()
         {
@@ -66,7 +64,10 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
 
         private void ConstructUIRoot() => _uIFactory.CreateRootUI();
 
-        private void ConstructMainMenu() => _uIFactory.CreateMainMenu();
-
+        private void ConstructMainMenu()
+        {
+            GameObject menu = _uIFactory.CreateMainMenu();
+            menu.GetComponentInChildren<Play>().Construct(_gameStateMachine);
+        }
     }
 }

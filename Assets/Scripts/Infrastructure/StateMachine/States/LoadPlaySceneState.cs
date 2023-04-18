@@ -3,6 +3,8 @@ using Assets.Scripts.UI.Common;
 using Assets.Scripts.UI.UIFactory;
 using Assets.Scripts.Infrastructure.Services.SceneLoaderFolder;
 using Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory;
+using Assets.Scripts.Infrastructure.Services.StaticDataServiceFolder;
+using Assets.Scripts.Infrastructure.StaticData.GameStaticDataFolder;
 
 namespace Assets.Scripts.Infrastructure.StateMachine.States
 {
@@ -15,13 +17,12 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         private IUIFactory _uiFactory;
         private ISceneLoader _sceneLoader;
         private IPlayerFactory _playerFactory;
-
-
+        private IStaticDataService _staticData;
 
         public LoadPlaySceneState(IGameStateMachine gameStateMachine, ServiceLocator serviceLocator, GameObject loadingCurtain) 
         {
-            _gameStateMachine = gameStateMachine;
             _serviceLocator = serviceLocator;
+            _gameStateMachine = gameStateMachine;
             _loadingCurtain = loadingCurtain.GetComponent<LoadingCurtains>();
         }
 
@@ -40,8 +41,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             _uiFactory = _serviceLocator.GetService<IUIFactory>();
             _sceneLoader = _serviceLocator.GetService<ISceneLoader>();
             _playerFactory = _serviceLocator.GetService<IPlayerFactory>();
-
-
+            _staticData = _serviceLocator.GetService<IStaticDataService>();
         }
 
         private void LoadScene(string sceneName) => _sceneLoader.Load(sceneName, OnLoaded);
@@ -52,24 +52,18 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             _gameStateMachine.EnterToState<GameLoopState>();
         }
 
-
         private void ConstructPlayScene()
         {
-
-
-            GameObject player = ConstructPlayer();
+            GameStaticData gameStaticData = _staticData.GetGameStaticData();
+            GameObject player = ConstructPlayer(gameStaticData.PlayerStartPoint);
             GameObject hud = ConstructHUD(player);
         }
 
-
-
-        private GameObject ConstructPlayer()
+        private GameObject ConstructPlayer(Vector3 spawnPosition)
         {
-            GameObject player = _playerFactory.CreatePlayer();
+            GameObject player = _playerFactory.CreatePlayer(spawnPosition);
             return player;
         }
-
-
 
         private GameObject ConstructHUD(GameObject player)
         {
@@ -78,10 +72,7 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
             return _hud;
         }
 
-        private void ConstructUIRoot()
-        {
-           _uiFactory.CreateRootUI();
-        }
+        private void ConstructUIRoot() => _uiFactory.CreateRootUI();
 
     }
 }

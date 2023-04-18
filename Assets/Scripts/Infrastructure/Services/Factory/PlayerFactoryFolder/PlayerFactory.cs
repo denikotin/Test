@@ -18,10 +18,10 @@ namespace Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory
 
         }
 
-        public GameObject CreatePlayer()
+        public GameObject CreatePlayer(Vector3 spawnPoint)
         {
             GameObject playerPrefab = _assetProvider.Load(AssetsPaths.PLAYER);
-            GameObject player = Object.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+            GameObject player = Object.Instantiate(playerPrefab, spawnPoint, Quaternion.identity);
 
             return player;
         }

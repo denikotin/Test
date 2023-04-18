@@ -1,4 +1,3 @@
-using Mirror;
 using UnityEngine;
 
 namespace Assets.Scripts.Logic.Camera
@@ -8,7 +7,7 @@ namespace Assets.Scripts.Logic.Camera
         public Quaternion PlanarRotation => Quaternion.Euler(0f, _rotationY, 0f);
 
         [SerializeField] private Transform _target;
-        [SerializeField][Range(1f, 100f)] private float _cameraSpeed;
+        [SerializeField][Range(0.1f, 10f)] private float _cameraSpeed;
         [SerializeField][Range(0f, 90f)] private float _verticalAngle;
         [SerializeField][Range(0f, 10f)] private float _verticalOffset;
         [SerializeField][Range(0f, 10f)] private float _distanceToTarget;

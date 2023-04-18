@@ -2,7 +2,7 @@
 using Assets.Scripts.Infrastructure.AssetProviderFolder;
 using Assets.Scripts.Infrastructure.Services.SceneLoaderFolder;
 using Assets.Scripts.Infrastructure.Services.Factory.PlayerFactory;
-using Assets.Scripts.Infrastructure.Services.Factory.NetworkFactoryFolder;
+using Assets.Scripts.Infrastructure.Services.StaticDataServiceFolder;
 
 namespace Assets.Scripts.Infrastructure.StateMachine.States
 {
@@ -34,9 +34,9 @@ namespace Assets.Scripts.Infrastructure.StateMachine.States
         { 
             _serviceLocator.RegisterService<ISceneLoader>(_sceneLoader);
             _serviceLocator.RegisterService<IGameStateMachine>(_gameStateMachine);
+            _serviceLocator.RegisterService<IStaticDataService>(new StaticDataService());
             _serviceLocator.RegisterService<IAssetProvider>(new AssetProvider());
             _serviceLocator.RegisterService<IPlayerFactory>(new PlayerFactory(_serviceLocator));
-            _serviceLocator.RegisterService<INetworkFactory>(new NetworkFactory(_serviceLocator));
             _serviceLocator.RegisterService<IUIFactory>(new UIFactory(_serviceLocator.GetService<IAssetProvider>(), _serviceLocator));
         }
     }

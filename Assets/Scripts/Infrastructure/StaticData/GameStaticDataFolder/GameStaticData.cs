@@ -2,9 +2,9 @@
 
 namespace Assets.Scripts.Infrastructure.StaticData.GameStaticDataFolder
 {
-    [CreateAssetMenu(fileName = "GameData", menuName = "StaticData/Game")]
-    public class GameStaticData:ScriptableObject
+    [CreateAssetMenu(fileName = "GameStaticData", menuName = "StaticData/GameStaticData")]
+    public class GameStaticData: ScriptableObject
     {
-        public int LevelCount;
+        public Vector3 PlayerStartPoint;
     }
 }

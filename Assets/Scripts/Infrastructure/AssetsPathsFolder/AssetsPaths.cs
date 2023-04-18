@@ -1,6 +1,4 @@
-﻿using Mirror;
-
-namespace Assets.Scripts.Infrastructure.AssetsPathsFolder
+﻿namespace Assets.Scripts.Infrastructure.AssetsPathsFolder
 {
     public static class AssetsPaths
     {
@@ -13,7 +11,8 @@ namespace Assets.Scripts.Infrastructure.AssetsPathsFolder
         //Characters
         public const string PLAYER = "Characters/Player/Player";
 
-        //Network
-        public const string NETWORK_MANAGER = "Network/NetworkManager";
+        //StaticData
+        public const string GAME = "ScriptableObject/GameStaticData";
+
     }
 }
